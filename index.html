@@ -17,18 +17,19 @@
   <title>Study Pod Booking Widget</title>
   <style>
   body {
-    font-family: "Segoe UI", sans-serif;
+    font-family: "Helvetica Neue", Arial, sans-serif;
     background-color: #f9f9f9;
     padding: 20px;
     max-width: 900px;
     margin: auto;
-    color: #333;
+    color: #2B3990;
   }
 
   h1 {
     text-align: center;
     font-weight: 600;
     margin-bottom: 30px;
+    color: #2B3990;
   }
 
   form, #insights, table {
@@ -43,6 +44,7 @@
     display: block;
     margin-top: 15px;
     font-weight: 500;
+    color: #2B3990;
   }
 
   input, select, button {
@@ -55,13 +57,13 @@
   }
 
   input:focus, select:focus {
-    border-color: #0077ff;
+    border-color: #2B3990;
     outline: none;
   }
 
   button {
     margin-top: 15px;
-    background-color: #0077ff;
+    background-color: #2B3990;
     color: white;
     font-weight: 600;
     border: none;
@@ -70,11 +72,11 @@
   }
 
   button:hover {
-    background-color: #005fcc;
+    background-color: #1f2b6b;
   }
 
   #errors {
-    color: red;
+    color: #e04141;
     margin-top: 12px;
     font-weight: 500;
   }
@@ -92,13 +94,14 @@
   }
 
   th {
-    background-color: #f1f1f1;
+    background-color: #CDCB05;
     font-weight: 600;
+    color: #2B3990;
   }
 
   .remove-btn {
     background-color: #eee;
-    color: #333;
+    color: #2B3990;
     font-weight: 500;
     transition: background-color 0.2s;
   }
@@ -112,7 +115,7 @@
     margin: 6px 0;
     font-size: 15px;
   }
-</style>
+  </style>
 
 </head>
 <body>
@@ -192,6 +195,7 @@ timeInput.type = "time";
 timeInput.id = "time-input";
 timeInput.min = "08:00";
 timeInput.max = "19:59";
+
 // timeInput.step = 3600; // 1 hr 
 
   // Student IDs input field
