@@ -224,6 +224,8 @@ timeInput.max = "19:59";
 // Call the function to build form on page load
 buildBookingForm();
 
+
+
 // Attach event listener to the form after DOM is built
 document.getElementById("booking-form").addEventListener("submit", function (event) {
   event.preventDefault(); // Prevent form reload
@@ -318,15 +320,16 @@ if (minute !== "00") {
   renderInsights();
 });
 
-
-
+ 
     // Booking array that will be used during runtime
     let bookings = [...initialBookings];
 
     // Global counter for rule violations (Rule 2 and Rule 3)
     let ruleViolationCount = 0;
 
-
+    // Initialize page with default data
+    renderBookingsTable();
+    renderInsights();
 
     function renderBookingsTable() {
   const tbody = document.querySelector("#bookings-table tbody");
