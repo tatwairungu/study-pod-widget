@@ -4,13 +4,15 @@
     <!--
   Summary of core JS concepts used:
 
-  - Variables & data types: Defined with const/let for pods, bookings, counters
-  - Control structures: Used if/else for input validation and rule enforcement
+  - Variables & data types: Defined with const/let for pods, bookings, counters, and lastBooking
+  - Control structures: Used if/else for input validation, undo logic, and rule enforcement
   - Loops: Used for rendering form options, bookings table, insights, and ID parsing
   - Functions: Modularized into buildBookingForm(), renderBookingsTable(), renderInsights()
-  - Events: Handled form submission and dynamic remove buttons with addEventListener
+  - Events: Handled form submission, undo button, and dynamic remove buttons with addEventListener
   - DOM manipulation: Built form elements, table rows, insights panel using createElement/appendChild
+  - Additional Feature: Implemented "Undo Last Booking" functionality using a tracked variable (lastBooking) and a warning-styled undo button
 -->
+
 
 <head>
   <meta charset="UTF-8">
@@ -127,6 +129,9 @@
   </form>
 
   <div id="errors"></div>
+
+ <button id="undo-button" style="display:none; background-color:#e04141; color:white; font-weight:600;">Undo Last Booking</button>
+
 
   <!-- Table of bookings -->
   <h2>Bookings</h2>
@@ -307,17 +312,24 @@ if (minute !== "00") {
     }
   }
 
+  // Track the last successful booking
+    lastBooking = { podId, time, students };
+
   // If all rules passed, add booking
-  bookings.push({ podId, time, students });
+    bookings.push({ podId, time, students });
 
   // Clear error box and reset form
-  errorsDiv.textContent = "";
-  document.getElementById("student-input").value = "";
-  document.getElementById("student-input").focus();
+    errorsDiv.textContent = "";
+    document.getElementById("student-input").value = "";
+    document.getElementById("student-input").focus();
 
-  // Re-render the bookings and insights (placeholder for next step)
-  renderBookingsTable();
-  renderInsights();
+  // Show the undo button
+    document.getElementById("undo-button").style.display = "inline-block";
+
+  // Update UI
+    renderBookingsTable();
+    renderInsights();
+
 });
 
  
@@ -326,6 +338,10 @@ if (minute !== "00") {
 
     // Global counter for rule violations (Rule 2 and Rule 3)
     let ruleViolationCount = 0;
+
+    // Track the last successful booking for undo functionality
+    let lastBooking = null;
+
 
     // Initialize page with default data
     renderBookingsTable();
@@ -477,6 +493,22 @@ document.querySelector("#bookings-table tbody").addEventListener("click", functi
     bookings.splice(index, 1);
 
     // Re-render table and insights
+    renderBookingsTable();
+    renderInsights();
+  }
+});
+
+//  Undo Last Booking functionality 
+document.getElementById("undo-button").addEventListener("click", function () {
+  if (lastBooking) {
+    bookings = bookings.filter(b =>
+      !(b.podId === lastBooking.podId &&
+        b.time === lastBooking.time &&
+        JSON.stringify(b.students) === JSON.stringify(lastBooking.students))
+    );
+
+    lastBooking = null;
+    this.style.display = "none";
     renderBookingsTable();
     renderInsights();
   }
