@@ -282,11 +282,20 @@ if (minute !== "00") {
     return;
   }
 
-  // Rule 1: Check pod capacity
-  if (students.length > 4) {
-    errorsDiv.textContent = "Cannot book more than 4 students in a pod.";
-    return;
+  // Rule 1: Check total students in this pod at this time (existing + new ones)
+let currentCount = 0;
+
+for (let i = 0; i < bookings.length; i++) {
+  const b = bookings[i];
+  if (b.podId === podId && b.time === time) {
+    currentCount += b.students.length;
   }
+}
+
+if (currentCount + students.length > 4) {
+  errorsDiv.textContent = `Booking would exceed the pod capacity (max 4 students). Current total at ${time}: ${currentCount}`;
+  return;
+}
 
   // Rule 2 and 3: Check for booking conflicts
   for (let i = 0; i < students.length; i++) {
